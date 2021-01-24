@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ArticlesParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:id="@+id/ArticelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/ArticleImage"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/ArticleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is the Tile of the Article. check if we see it on next like. This is the third like"
+                android:textStyle="bold"
+                android:maxWidth="220dp"
+                app:layout_constraintStart_toEndOf="@+id/ArticleImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ArticleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is the Descrition"
+                android:maxWidth="220dp"
+                app:layout_constraintStart_toStartOf="@+id/ArticleTitle"
+                app:layout_constraintTop_toBottomOf="@+id/ArticleTitle" />
+
+            <CheckBox
+                android:id="@+id/ArticelRead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:checked="false"
+                android:text="Read"
+                app:layout_constraintStart_toEndOf="@+id/ArticleImage"
+                app:layout_constraintTop_toBottomOf="@+id/ArticleDescription" />
+            <CheckBox
+                android:id="@+id/ArticleFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:checked="false"
+                android:text="Favorite"
+                app:layout_constraintStart_toEndOf="@+id/ArticelRead"
+                app:layout_constraintTop_toBottomOf="@+id/ArticleDescription"
+                android:layout_marginEnd="40dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/ArticleSite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="CSN Bay Area" />
+
+            <TextView
+                android:id="@+id/ArticleTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:text="10 Hours" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

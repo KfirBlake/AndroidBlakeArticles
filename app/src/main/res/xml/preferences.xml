@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_settings">
+
+        <SwitchPreferenceCompat
+            android:key="setting_pref_start_refresh"
+            android:title="@string/pref_on_start_get_new"
+            android:summary="Get new articles from site on start of application"
+            android:defaultValue="true"/>
+        <ListPreference
+            android:key="setting_pref_start_show_order"
+            android:title="@string/pref_on_start_show"
+            android:summary="Show articles"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/settings_order_by"
+            android:entryValues="@array/settings_order_by_values"
+            android:defaultValue="1"/>
+        <EditTextPreference
+            android:key="@string/pref_load_twitter_link_key"
+            android:title="Twitter Link"
+            android:summary="Copy here the link to 49ers Twitter link"
+            android:defaultValue="@string/pref_load_twitter_link_link"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_delete">
+        <SwitchPreferenceCompat
+            android:key="setting_pref_delete_flag"
+            android:title="@string/pref_delete_message"
+            android:summary="Delete Articles when exit according to days"
+            android:defaultValue="true"/>
+        <ListPreference
+            android:key="setting_pref_delete_by_days"
+            android:title="@string/pref_delete_by_days"
+            android:summary="Delete Articles by Days"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/settings_delete_by_day"
+            android:entryValues="@array/settings_delete_by_day"
+            android:defaultValue="7"/>
+    </PreferenceCategory>
+</PreferenceScreen>
