@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,6 +83,15 @@ public class ArticlesRecViewAdapter extends RecyclerView.Adapter<ArticlesRecView
             }
         });
 
+        holder.btnShowOnWeb.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(articelFullPath)));
+            }
+        });
+
         final int index = position;
         holder.checkBoxRead.setOnClickListener(new View.OnClickListener()
         {
@@ -121,7 +132,7 @@ public class ArticlesRecViewAdapter extends RecyclerView.Adapter<ArticlesRecView
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         private TextView txtTitle, txtDesc, txtSite, txtTime;
-        private ImageView image;
+        private ImageView image, btnShowOnWeb;
         private CheckBox checkBoxRead, checkBoxFavorite;
         private CardView parent;
 
@@ -135,6 +146,7 @@ public class ArticlesRecViewAdapter extends RecyclerView.Adapter<ArticlesRecView
             txtTime = itemView.findViewById(R.id.ArticleTime);
             checkBoxRead = itemView.findViewById(R.id.ArticelRead);
             checkBoxFavorite = itemView.findViewById(R.id.ArticleFavorite);
+            btnShowOnWeb = itemView.findViewById(R.id.ArticelShowOnWeb);
             parent = itemView.findViewById(R.id.ArticlesParent);
         }
     }

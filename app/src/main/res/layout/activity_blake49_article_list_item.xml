@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:checked="false"
-                android:text="Read"
+                android:text="Read        "
                 app:layout_constraintStart_toEndOf="@+id/ArticleImage"
                 app:layout_constraintTop_toBottomOf="@+id/ArticleDescription" />
             <CheckBox
@@ -68,6 +68,16 @@
                 app:layout_constraintStart_toEndOf="@+id/ArticelRead"
                 app:layout_constraintTop_toBottomOf="@+id/ArticleDescription"
                 android:layout_marginEnd="40dp"/>
+            <ImageView
+                android:id="@+id/ArticelShowOnWeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ArticleTitle"
+                android:src="@drawable/csn_logo"
+                android:text="Web"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
