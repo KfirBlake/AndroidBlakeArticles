@@ -6,14 +6,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,8 +58,16 @@ public class ArticlesRecViewAdapter extends RecyclerView.Adapter<ArticlesRecView
         holder.txtTime.setText(getPublishedTime(articlesInfo.get(position).getTime()));
         holder.checkBoxRead.setChecked(articlesInfo.get(position).isRead());
         holder.checkBoxFavorite.setChecked(articlesInfo.get(position).isFavorite());
-        Picasso.with(context).load(articlesInfo.get(position).getLinkImage()).into(holder.image);
-
+        if (!articlesInfo.get(position).getLinkImage().equals(""))
+        {
+            try
+            {
+                Picasso.with(context).load(articlesInfo.get(position).getLinkImage()).into(holder.image);
+            }
+            catch (Exception e)
+            {
+            }
+        }
         final String articelFullPath = context.getResources().getString(R.string.CSNBayAreaHome) + articlesInfo.get(position).getLinkArticle();
         final String type = articlesInfo.get(position).getDescription();
 
