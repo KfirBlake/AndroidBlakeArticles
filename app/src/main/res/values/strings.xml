@@ -8,6 +8,9 @@
     <string name="menu_load_from_site">Reload From Site</string>
     <string name="menu_all">All</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_delete_old">Delete Old Articles</string>
+    <string name="menu_mark_all_read">Mark All Read</string>
+    <string name="menu_mark_all_not_read">Mark All Not Read</string>
     <string name="pref_category_settings">Application Setting</string>
     <string name="pref_on_start_show">When application start, show articles that:</string>
     <string name="pref_on_start_get_new">When application start, get new articles</string>
