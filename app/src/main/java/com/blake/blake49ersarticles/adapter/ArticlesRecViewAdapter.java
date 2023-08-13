@@ -3,6 +3,7 @@ package com.blake.blake49ersarticles.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,73 +53,86 @@ public class ArticlesRecViewAdapter extends RecyclerView.Adapter<ArticlesRecView
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.txtTitle.setText(articlesInfo.get(position).getTitle());
-        holder.txtDesc.setText(articlesInfo.get(position).getDescription());
-        holder.txtSite.setText(articlesInfo.get(position).getSite());
-        holder.txtTime.setText(getPublishedTime(articlesInfo.get(position).getTime()));
-        holder.checkBoxRead.setChecked(articlesInfo.get(position).isRead());
-        holder.checkBoxFavorite.setChecked(articlesInfo.get(position).isFavorite());
-        if (!articlesInfo.get(position).getLinkImage().equals(""))
+        try
         {
-            try
+            holder.txtTitle.setText(articlesInfo.get(position).getTitle());
+            holder.txtDesc.setText(articlesInfo.get(position).getDescription());
+            holder.txtSite.setText(articlesInfo.get(position).getSite());
+            holder.txtTime.setText(getPublishedTime(articlesInfo.get(position).getTime()));
+            holder.checkBoxRead.setChecked(articlesInfo.get(position).isRead());
+            holder.checkBoxFavorite.setChecked(articlesInfo.get(position).isFavorite());
+            if (!articlesInfo.get(position).getLinkImage().equals(""))
             {
-                Picasso.with(context).load(articlesInfo.get(position).getLinkImage()).into(holder.image);
+                try
+                {
+                    Picasso.with(context)
+                            .load(articlesInfo.get(position).getLinkImage())
+                            //.fit()
+                            .resize(400, 400)
+                            .centerInside()
+                            .into(holder.image);
+                }
+                catch (Exception e)
+                {
+                    Log.e("Error", e.getMessage());
+                }
             }
-            catch (Exception e)
-            {
-            }
-        }
-        final String articelFullPath = context.getResources().getString(R.string.CSNBayAreaHome) + articlesInfo.get(position).getLinkArticle();
-        final String type = articlesInfo.get(position).getDescription();
+            final String articelFullPath = context.getResources().getString(R.string.CSNBayAreaHome) + articlesInfo.get(position).getLinkArticle();
+            final String type = articlesInfo.get(position).getDescription();
 
-        holder.parent.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+            holder.parent.setOnClickListener(new View.OnClickListener()
             {
-                if (type.equals("gallery"))
+                @Override
+                public void onClick(View v)
+                {
+                    if (type.equals("gallery"))
+                    {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(articelFullPath)));
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(context, WebSiteActiviy.class);
+                        intent.putExtra("URL", articelFullPath);
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
+            holder.btnShowOnWeb.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
                 {
                     context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(articelFullPath)));
                 }
-                else
+            });
+
+            final int index = position;
+            holder.checkBoxRead.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
                 {
-                    Intent intent = new Intent(context, WebSiteActiviy.class);
-                    intent.putExtra("URL", articelFullPath);
-                    context.startActivity(intent);
+                    articlesInfo.get(index).setRead(((CheckBox) v).isChecked());
+                    ((MainActivity) context).dbHelper.updateArticle(articlesInfo.get(index).getId(), articlesInfo.get(index).isRead() ? "1" : "0", articlesInfo.get(index).isFavorite() ? "1" : "0");
+                    setNumberOfArticlesNotRead();
                 }
-            }
-        });
+            });
 
-        holder.btnShowOnWeb.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+            holder.checkBoxFavorite.setOnClickListener(new View.OnClickListener()
             {
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(articelFullPath)));
-            }
-        });
-
-        final int index = position;
-        holder.checkBoxRead.setOnClickListener(new View.OnClickListener()
+                @Override
+                public void onClick(View v)
+                {
+                    articlesInfo.get(index).setFavorite(((CheckBox) v).isChecked());
+                    ((MainActivity) context).dbHelper.updateArticle(articlesInfo.get(index).getId(), articlesInfo.get(index).isRead() ? "1" : "0", articlesInfo.get(index).isFavorite() ? "1" : "0");
+                }
+            });
+        }
+        catch (Exception e)
         {
-            @Override
-            public void onClick(View v)
-            {
-                articlesInfo.get(index).setRead(((CheckBox) v).isChecked());
-                ((MainActivity) context).dbHelper.updateArticle(articlesInfo.get(index).getId(), articlesInfo.get(index).isRead() ? "1" : "0", articlesInfo.get(index).isFavorite() ? "1" : "0");
-                setNumberOfArticlesNotRead();
-            }
-        });
-
-        holder.checkBoxFavorite.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                articlesInfo.get(index).setFavorite(((CheckBox) v).isChecked());
-                ((MainActivity) context).dbHelper.updateArticle(articlesInfo.get(index).getId(), articlesInfo.get(index).isRead() ? "1" : "0", articlesInfo.get(index).isFavorite() ? "1" : "0");
-            }
-        });
+            Log.e("Error", e.getMessage() );
+        }
     }
 
     @Override

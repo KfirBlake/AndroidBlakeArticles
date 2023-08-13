@@ -23,5 +23,6 @@ public class WebSiteActiviy extends AppCompatActivity
         webView = findViewById(R.id.ArticelWebView);
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient());
+        //webView.loadData("<html> bla </html>", "text/html", "UTS-8");
     }
 }

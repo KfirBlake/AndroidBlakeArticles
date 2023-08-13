@@ -21,11 +21,25 @@
     </group>
 
     <item
+        android:id="@+id/menu_refresh_from_site"
+        android:title="@string/menu_load_from_site" />
+
+    <item
+        android:id="@+id/menu_delete_old"
+        android:title="@string/menu_delete_old" />
+    <item
+        android:id="@+id/menu_mark_all_read"
+        android:title="@string/menu_mark_all_read" />
+    <item
+        android:id="@+id/menu_mark_all_not_read"
+        android:title="@string/menu_mark_all_not_read" />
+
+    <item
         android:id="@+id/menu_load_twitter"
         android:title="Load Twitter of 49ers" />
     <item
-        android:id="@+id/menu_refresh_from_site"
-        android:title="@string/menu_load_from_site" />
+        android:id="@+id/menu_load_twitterAsPage"
+        android:title="49ers Twitter Page" />
 
     <item
         android:id="@+id/menu_settings"

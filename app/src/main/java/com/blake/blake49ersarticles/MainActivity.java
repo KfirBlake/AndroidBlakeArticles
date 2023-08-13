@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +39,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
 {
 
+    SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView articleRecView;
     private ArticlesRecViewAdapter adapter;
     private ArrayList<ArticleInfo> articlesInfo = new ArrayList<>();
@@ -73,11 +76,30 @@ public class MainActivity extends AppCompatActivity
                 this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(linkToTwitter)));
                 return true;
 
+            case R.id.menu_load_twitterAsPage:
+                Intent intent = new Intent(this, WebSiteActiviy.class);
+                intent.putExtra("URL", "file:///android_asset/twitter.html");
+                this.startActivity(intent);
+                //this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("file:///android_asset/twitter.html")));
+                return true;
 
             case R.id.menu_refresh_from_site:
-                dbHelper.deleteAllArticles();
-                dbHelper.insertAllArticles(articlesInfo);
                 getArticelsCSBBayArea();
+                return true;
+
+            case R.id.menu_delete_old:
+                deleteOldArticles();
+                articlesInfo = dbHelper.getAllArticles();
+                getArticelsCSBBayArea();
+                return true;
+
+            case R.id.menu_mark_all_read:
+                setArticlesAsReadNotRead(articlesInfo, true);
+                refreshArticles();
+                return true;
+            case R.id.menu_mark_all_not_read:
+                setArticlesAsReadNotRead(articlesInfo, false);
+                refreshArticles();
                 return true;
 
             case R.id.menu_settings:
@@ -102,6 +124,18 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
+        deleteOldArticles();
+    }
+
+    private void refreshArticles()
+    {
+        dbHelper.deleteAllArticles();
+        dbHelper.insertAllArticles(articlesInfo);
+        getArticelsCSBBayArea();
+    }
+
+    private void deleteOldArticles()
+    {
         SharedPreferences sharedPreferencesSettings = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferencesSettings.getBoolean("setting_pref_delete_flag", false))
         {
@@ -123,6 +157,19 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferencesSettings = PreferenceManager.getDefaultSharedPreferences(this);
         linkToTwitter = sharedPreferencesSettings.getString(getResources().getString(R.string.pref_load_twitter_link_key), getResources().getString(R.string.pref_load_twitter_link_link));
 
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                Log.i("Refresh", "Perform Refresh");
+                getArticelsCSBBayArea();
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        articleRecView.setLayoutManager(linearLayoutManager);
 
         getArticelsCSBBayArea();
         ActionBar actionBar = getSupportActionBar();
@@ -238,6 +285,14 @@ public class MainActivity extends AppCompatActivity
                 array.add(articleInfo);
         }
         return array;
+    }
+
+    private void setArticlesAsReadNotRead(ArrayList<ArticleInfo> articlesInfo, boolean read)
+    {
+        for (ArticleInfo articleInfo : articlesInfo)
+        {
+               articleInfo.setRead(read);
+        }
     }
 
 }
